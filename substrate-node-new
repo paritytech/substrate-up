@@ -1,0 +1,22 @@
+#!/bin/bash
+
+name=$1
+
+if [[ "$name" == "" || "$name" == "-"* ]]
+then
+  echo "Usage: substrate-node-new <NAME>"
+  exit 1
+fi
+
+git clone https://github.com/paritytech/substrate-node-template $name
+
+#TODO: perform renames.
+
+pushd
+
+cd $name
+./init.sh
+./build.sh
+cargo build --release
+
+popd
