@@ -1,20 +1,51 @@
 #!/bin/bash
 
 name=$1
+shift
+author=$1
+shift
 
 if [[ "$name" == "" || "$name" == "-"* ]]
 then
-  echo "Usage: substrate-node-new <NAME>"
+  echo "Usage: substrate-node-new <NAME> <AUTHOR>"
+  exit 1
+fi
+if [[ "$author" == "" || "$author" == "-"* ]]
+then
+  echo "Usage: substrate-node-new <NAME> <AUTHOR>"
   exit 1
 fi
 
-git clone https://github.com/paritytech/substrate-node-template $name
+lname="$(echo $name | tr '[:upper:]' '[:lower:]')"
+dirname="${lname/ /-}"
 
-#TODO: perform renames.
+git clone https://github.com/paritytech/substrate-node-template $dirname
+
+function replace {
+	find_this="$1"
+	shift
+	replace_with="$1"
+	shift
+	temp="${TMPDIR:-/tmp}/replace_temp_file.$$"
+	IFS=$'\n'
+	for item in $dirname/**/*; do
+		sed "s/$find_this/$replace_with/g" "$item" > "$temp" && mv "$temp" "$item"
+	done
+}
+replace "Template Node" "${name}"
+replace template-node "${lname/[_ ]/-}"
+replace template_node "${lname/[- ]/_}"
+replace Anonymous "$author"
 
 pushd .
 
-cd $name
+cd $dirname
+
+rm -rf .git
+git init
+git add * .gitignore
+git commit -a -m "Initial clone from template node"
+
 ./init.sh
 ./build.sh
 cargo build --release
