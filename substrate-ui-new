@@ -11,7 +11,7 @@ fi
 git clone https://github.com/paritytech/substrate-ui --branch substrate-node-template "$name-ui"
 pushd .
 
-cd $name
+cd "$name-ui"
 npm i
 
 popd
