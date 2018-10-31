@@ -1,0 +1,59 @@
+#!/usr/bin/env bash
+
+name=$1
+shift
+author=$1
+shift
+
+if [[ "${name/* */}" == "" || "$name" == "-"* ]]
+then
+  echo "Usage: substrate-module-new <NAME> <AUTHOR>"
+  exit 1
+fi
+
+lname="$(echo $name | tr '[:upper:]' '[:lower:]')"
+filename="${lname/[_ ]/-}.rs"
+modname="${lname/[- ]/_}"
+
+bold=$(tput bold)
+yellow=$(tput setaf 3)
+normal=$(tput sgr0)
+
+if [[ -e runtime/src ]]; then
+	dir=runtime/src
+elif [[ -e wasm/src && -e src ]]; then
+	dir=src
+else
+	dir=.
+fi
+
+echo "${bold}Creating module in ${dir}...${normal}"
+
+pushd $dir >/dev/null
+
+curl https://raw.githubusercontent.com/paritytech/substrate/gav-template/srml/template-module/src/lib.rs -sSf > $filename
+
+git add $filename
+
+echo "${bold}Customising module...${normal}"
+function replace {
+	find_this="$1"
+	shift
+	replace_with="$1"
+	shift
+	IFS=$'\n'
+	TEMP=$(mktemp -d "${TMPDIR:-/tmp/}.XXXXXXXXXXXX")
+	rmdir $TEMP
+	for item in $filename
+	do
+		sed "s/$find_this/$replace_with/g" "$item" > $TEMP
+		cat $TEMP > "$item"
+	done
+	rm -f $TEMP
+}
+replace "TemplateModule" "${name}"
+
+echo "${bold}SRML module created as ${yellow}$dir/${filename}${normal}${bold} and added to git.${normal}"
+echo "Ensure that you include in your ${bold}${yellow}$dir/lib.rs${normal} the line:"
+echo "   mod ${modname};"
+popd >/dev/null
