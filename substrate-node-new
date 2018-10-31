@@ -39,7 +39,7 @@ function replace {
 	shift
 	IFS=$'\n'
 	TEMP=$(mktemp -d "${TMPDIR:-/tmp/}.XXXXXXXXXXXX")
-	rmdir -f $TEMP
+	rmdir $TEMP
 	for item in `find . -type f`
 	do
 		sed "s/$find_this/$replace_with/g" "$item" > $TEMP
