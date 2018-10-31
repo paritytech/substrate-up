@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 name=$1
 shift
@@ -19,17 +19,28 @@ fi
 lname="$(echo $name | tr '[:upper:]' '[:lower:]')"
 dirname="${lname/ /-}"
 
-git clone https://github.com/paritytech/substrate-node-template $dirname
+bold=$(tput bold)
+normal=$(tput sgr0)
 
+echo "${bold}Cloning project...${normal}"
+if ! git clone -q https://github.com/paritytech/substrate-node-template $dirname
+then
+	exit 1
+fi
+
+pushd $dirname >/dev/null
+rm -rf .git
+
+echo "${bold}Customising project...${normal}"
 function replace {
 	find_this="$1"
 	shift
 	replace_with="$1"
 	shift
-	temp="${TMPDIR:-/tmp}/replace_temp_file.$$"
 	IFS=$'\n'
-	for item in $dirname/**/*; do
-		sed "s/$find_this/$replace_with/g" "$item" > "$temp" && mv "$temp" "$item"
+	for item in `find . -type f`
+	do
+		sed -i '' "s/$find_this/$replace_with/g" "$item"
 	done
 }
 replace "Template Node" "${name}"
@@ -37,17 +48,18 @@ replace template-node "${lname/[_ ]/-}"
 replace template_node "${lname/[- ]/_}"
 replace Anonymous "$author"
 
-pushd .
+echo "${bold}Initialising Git repo...${normal}"
+git init 2>/dev/null >/dev/null
+git add * .gitignore 2>/dev/null >/dev/null
+git commit -a -m "Initial clone from template node" 2>/dev/null >/dev/null
 
-cd $dirname
+echo "${bold}Initialising Webassembly build environment...${normal}"
+./init.sh 2>/dev/null >/dev/null
 
-rm -rf .git
-git init
-git add * .gitignore
-git commit -a -m "Initial clone from template node"
-
-./init.sh
 ./build.sh
+
+echo "${bold}Building node...${normal}"
 cargo build --release
 
-popd
+echo "${bold}Done!${normal}"
+popd >/dev/null
