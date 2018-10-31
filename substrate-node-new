@@ -52,12 +52,12 @@ replace template-node "${lname/[_ ]/-}"
 replace template_node "${lname/[- ]/_}"
 replace Anonymous "$author"
 
-echo "${bold}Initialising Git repo...${normal}"
+echo "${bold}Initialising repository...${normal}"
 git init 2>/dev/null >/dev/null
 git add * .gitignore 2>/dev/null >/dev/null
 git commit -a -m "Initial clone from template node" 2>/dev/null >/dev/null
 
-echo "${bold}Initialising Webassembly build environment...${normal}"
+echo "${bold}Initialising webassembly build environment...${normal}"
 ./init.sh 2>/dev/null >/dev/null
 
 ./build.sh
@@ -65,5 +65,11 @@ echo "${bold}Initialising Webassembly build environment...${normal}"
 echo "${bold}Building node...${normal}"
 cargo build --release
 
-echo "${bold}Done!${normal}"
+echo "${bold}Chain client created in ${dirname}${normal}."
+echo "To start a dev chain, run:"
+echo "$ $dirname/target/release/${lname/[_ ]/-} --dev"
+echo "To create a basic Bonds UI for your chain, run:"
+echo "$ substrate-ui-new $name"
+echo "To push to a newly created GitHub repository, inside ${dirname}, run:"
+echo "$ git remote add origin git@github.com:myusername/myprojectname && git push -u origin master"
 popd >/dev/null
