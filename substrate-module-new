@@ -12,8 +12,8 @@ then
 fi
 
 lname="$(echo $name | tr '[:upper:]' '[:lower:]')"
-filename="${lname/[_ ]/-}.rs"
-modname="${lname/[- ]/_}"
+filename="${lname//[_ ]/-}.rs"
+modname="${lname//[- ]/_}"
 
 bold=$(tput bold)
 yellow=$(tput setaf 3)
