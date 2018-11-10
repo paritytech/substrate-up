@@ -17,7 +17,7 @@ then
 fi
 
 lname="$(echo $name | tr '[:upper:]' '[:lower:]')"
-dirname="${lname/ /-}"
+dirname="${lname// /-}"
 
 bold=$(tput bold)
 normal=$(tput sgr0)
@@ -48,8 +48,8 @@ function replace {
 	rm -f $TEMP
 }
 replace "Template Node" "${name}"
-replace template-node "${lname/[_ ]/-}"
-replace template_node "${lname/[- ]/_}"
+replace template-node "${lname//[_ ]/-}"
+replace template_node "${lname//[- ]/_}"
 replace Anonymous "$author"
 
 echo "${bold}Initialising repository...${normal}"
@@ -67,7 +67,7 @@ cargo build --release
 
 echo "${bold}Chain client created in ${dirname}${normal}."
 echo "To start a dev chain, run:"
-echo "$ $dirname/target/release/${lname/[_ ]/-} --dev"
+echo "$ $dirname/target/release/${lname//[_ ]/-} --dev"
 echo "To create a basic Bonds UI for your chain, run:"
 echo "$ substrate-ui-new $name"
 echo "To push to a newly created GitHub repository, inside ${dirname}, run:"
