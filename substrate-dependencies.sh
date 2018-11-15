@@ -7,8 +7,7 @@ prompt_install () {
     case $yn in
       [Yy]* ) return 0;;
       [Nn]* ) return 1;;
-      * ) echo
-					echo "Try again. Please answer yes or no.";;
+      * ) echo "Try again. Please answer yes or no.";;
     esac
   done
 }
