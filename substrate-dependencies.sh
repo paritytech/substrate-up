@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
 
+COLOR_WHITE=$(tput setaf 7);
+COLOR_MAGENTA=$(tput setaf 5);
+FONT_BOLD=$(tput bold);
+FONT_NORMAL=$(tput sgr0);
+
 prompt_install () {
   while true; do
   	echo
@@ -13,7 +18,7 @@ prompt_install () {
 }
 
 echo
-echo -e "\e[39mSubstrate Dependencies Setup...";
+echo -e "$COLOR_WHITE $FONT_BOLD Substrate Dependencies Setup...$FONT_NORMAL";
 echo
 echo -e "  Installing Rust with WASM...";
 echo
@@ -33,7 +38,7 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
 
   APP="Homebrew"
   echo
-  echo -e "\e[35mSearching for $APP...\e[37m";
+  echo -e "$COLOR_MAGENTA $FONT_BOLD Searching for $APP...$COLOR_WHITE $FONT_NORMAL";
   if brew 2>&1 | grep Example; then
     echo -e "  Skipping, $APP already installed";
   else
@@ -48,7 +53,7 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
 
   APP="Git"
   echo
-  echo -e "\e[35mSearching for $APP...\e[37m";
+  echo -e "$COLOR_MAGENTA $FONT_BOLD Searching for $APP...$COLOR_WHITE $FONT_NORMAL";
   if git 2>&1 | grep usage; then
     echo -e "  Skipping, $APP already installed";
   else
