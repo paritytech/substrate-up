@@ -1,11 +1,16 @@
 #!/usr/bin/env bash
 
+COLOR_WHITE=$(tput setaf 7);
+COLOR_MAGENTA=$(tput setaf 5);
+FONT_BOLD=$(tput bold);
+FONT_NORMAL=$(tput sgr0);
+
 echo
-echo -e "\e[39mPolkadot-JS Apps Setup...";
+echo -e "$COLOR_WHITE $FONT_BOLD Polkadot-JS Apps Setup...$FONT_NORMAL";
 echo
-echo -e "Usage: polkadot-js-apps-new"
+echo -e "Usage: polkadot-js-apps-new";
 echo
-echo -e "\e[35mCloning Polkadot-JS Apps...\e[39m"
+echo -e "$COLOR_MAGENTA $FONT_BOLD Cloning Polkadot-JS Apps...$COLOR_WHITE $FONT_NORMAL";
 git clone https://github.com/polkadot-js/apps --branch master;
 cd apps;
 yarn; 
