@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
 
+COLOR_WHITE=$(tput setaf 7);
+COLOR_MAGENTA=$(tput setaf 5);
+FONT_BOLD=$(tput bold);
+FONT_NORMAL=$(tput sgr0);
+
 prompt_install () {
   while true; do
   	echo
@@ -14,11 +19,11 @@ prompt_install () {
 }
 
 echo
-echo -e "\e[39mPolkadot-JS Dependencies Setup...";
+echo -e "$COLOR_WHITE $FONT_BOLD Polkadot-JS Dependencies Setup... $FONT_NORMAL";
 
 APP="Xcode Command Line Tools"
 echo
-echo -e "\e[35mSearching for $APP...\e[37m";
+echo -e "$COLOR_MAGENTA $FONT_BOLD Searching for $APP...$COLOR_WHITE $FONT_NORMAL";
 if xcode-select --install 2>&1 | grep installed; then
 	echo -e "  Skipping, $APP already installed";
 else
@@ -30,7 +35,7 @@ fi
 
 APP="Homebrew"
 echo
-echo -e "\e[35mSearching for $APP...\e[37m";
+echo -e "$COLOR_MAGENTA $FONT_BOLD Searching for $APP...$COLOR_WHITE $FONT_NORMAL";
 if brew 2>&1 | grep Example; then
 	echo -e "  Skipping, $APP already installed";
 else
@@ -45,7 +50,7 @@ fi
 
 APP="RBenv"
 echo
-echo -e "\e[35mSearching for $APP...\e[37m";
+echo -e "$COLOR_MAGENTA $FONT_BOLD Searching for $APP...$COLOR_WHITE $FONT_NORMAL";
 if rbenv 2>&1 | grep Usage; then
 	echo -e "  Skipping, $APP already installed";
 else
@@ -64,7 +69,7 @@ fi
 
 APP="Node Version Manager (NVM)"
 echo
-echo -e "\e[35mSearching for $APP...\e[37m";
+echo -e "$COLOR_MAGENTA $FONT_BOLD Searching for $APP...$COLOR_WHITE $FONT_NORMAL";
 if nvm 2>&1 | grep Manager; then
 	echo -e "  Skipping, $APP already installed";
 else
@@ -83,7 +88,7 @@ fi
 
 APP="Yarn"
 echo
-echo -e "\e[35mSearching for $APP...\e[37m";
+echo -e "$COLOR_MAGENTA $FONT_BOLD Searching for $APP...$COLOR_WHITE $FONT_NORMAL";
 if yarn 2>&1 | grep install; then
 	echo -e "  Skipping, $APP already installed";
 else
@@ -95,7 +100,7 @@ fi
 
 APP="Git"
 echo
-echo -e "\e[35mSearching for $APP...\e[37m";
+echo -e "$COLOR_MAGENTA $FONT_BOLD Searching for $APP...$COLOR_WHITE $FONT_NORMAL";
 if git 2>&1 | grep usage; then
 	echo -e "  Skipping, $APP already installed";
 else
@@ -116,7 +121,7 @@ fi
 
 APP="Docker"
 echo
-echo -e "\e[35mSearching for $APP...\e[37m";
+echo -e "$COLOR_MAGENTA $FONT_BOLD Searching for $APP...$COLOR_WHITE $FONT_NORMAL";
 if docker 2>&1 | grep Usage; then
 	echo -e "  Skipping, $APP already installed";
 else
