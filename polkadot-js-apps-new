@@ -13,5 +13,7 @@ echo
 echo -e "$COLOR_MAGENTA $FONT_BOLD Cloning Polkadot-JS Apps...$COLOR_WHITE $FONT_NORMAL";
 git clone https://github.com/polkadot-js/apps --branch master;
 cd apps;
+git fetch origin next:next;
+git checkout next;
 yarn; 
 yarn run build;
