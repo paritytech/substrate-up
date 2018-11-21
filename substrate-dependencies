@@ -22,7 +22,7 @@ echo -e "$COLOR_WHITE $FONT_BOLD Substrate Dependencies Setup...$FONT_NORMAL";
 echo
 echo -e "  Installing Rust with WASM...";
 echo
-curl https://sh.rustup.rs -sSf | sh;
+curl https://sh.rustup.rs -sSf | sh -s -- -y;
 rustup update nightly;
 rustup target add wasm32-unknown-unknown --toolchain nightly;
 rustup update stable;
