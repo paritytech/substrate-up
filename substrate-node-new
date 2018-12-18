@@ -38,7 +38,7 @@ function replace {
 	replace_with="$1"
 	shift
 	IFS=$'\n'
-	TEMP=$(mktemp -d "${TMPDIR:-/tmp/}.XXXXXXXXXXXX")
+	TEMP=$(mktemp -d "${TMPDIR:-/tmp}/.XXXXXXXXXXXX")
 	rmdir $TEMP
 	for item in `find . -type f`
 	do
