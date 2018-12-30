@@ -8,12 +8,12 @@ FONT_NORMAL=$(tput sgr0);
 echo
 echo -e "$COLOR_WHITE $FONT_BOLD Polkadot-JS Apps Setup...$FONT_NORMAL";
 echo
-echo -e "Usage: polkadot-js-apps-new";
+echo -e "    Usage: polkadot-js-apps-new";
 echo
-echo -e "$COLOR_MAGENTA $FONT_BOLD Cloning Polkadot-JS Apps...$COLOR_WHITE $FONT_NORMAL";
+echo -e "  $COLOR_MAGENTA $FONT_BOLD Cloning Polkadot-JS Apps...$COLOR_WHITE $FONT_NORMAL";
+echo
 git clone https://github.com/polkadot-js/apps --branch master;
 cd apps;
-git fetch origin next:next;
-git checkout next;
 yarn; 
 yarn run build;
+echo -e "    Run Polkadot-JS Apps with the command 'yarn start'";
