@@ -40,3 +40,4 @@ cd "$name-ui"
 npm i
 
 popd
+
