@@ -18,17 +18,17 @@ then
 fi
 
 if [ ! -d "$name-ui" ]; then
-	echo "    Subdirectory named $name-ui already exists.";
-	echo
-	read -p "  $COLOR_MAGENTA $FONT_BOLD Enter (y) to permanently replace the directory contents >  $COLOR_WHITE $FONT_NORMAL" choice
-	echo
-	case $choice in
-		[Yy]* )
-			echo -e "    Removing subdirectory $name-ui and its contents...";
-			rm -rf ./"$name-ui";;
-		* )
-			exit 1;;
-	esac
+  echo "    Subdirectory named $name-ui already exists.";
+  echo
+  read -p "  $COLOR_MAGENTA $FONT_BOLD Enter (y) to permanently replace the directory contents >  $COLOR_WHITE $FONT_NORMAL" choice
+  echo
+  case $choice in
+    [Yy]* )
+      echo -e "    Removing subdirectory $name-ui and its contents...";
+      rm -rf ./"$name-ui";;
+    * )
+      exit 1;;
+  esac
 fi
 
 echo -e "    Cloning substrate-ui into subdirectory $name-ui...";
