@@ -4,7 +4,7 @@ name=$1
 
 if [[ "$name" == "" || "$name" == "-"* ]]
 then
-  echo "Usage: substrate-node-new <NAME>"
+  echo "Usage: substrate-ui-new <NAME>"
   exit 1
 fi
 
