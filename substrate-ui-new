@@ -17,7 +17,7 @@ then
   exit 1
 fi
 
-if [ ! -d "$name-ui" ]; then
+if [ -d "$name-ui" ]; then
   echo "    Subdirectory named $name-ui already exists.";
   echo
   read -p "  $COLOR_MAGENTA $FONT_BOLD Enter (y) to permanently replace the directory contents >  $COLOR_WHITE $FONT_NORMAL" choice
