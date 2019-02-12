@@ -1,5 +1,14 @@
 #!/usr/bin/env bash
 
+COLOR_WHITE=$(tput setaf 7);
+COLOR_MAGENTA=$(tput setaf 5);
+FONT_BOLD=$(tput bold);
+FONT_NORMAL=$(tput sgr0);
+
+echo
+echo -e "$COLOR_WHITE $FONT_BOLD Substrate UI Setup $FONT_NORMAL";
+echo
+
 name=$1
 
 if [[ "$name" == "" || "$name" == "-"* ]]
@@ -8,6 +17,22 @@ then
   exit 1
 fi
 
+if [ -d "$name-ui" ]; then
+  echo "    Subdirectory named $name-ui already exists.";
+  echo
+  read -p "  $COLOR_MAGENTA $FONT_BOLD Enter (y) to permanently replace the directory contents >  $COLOR_WHITE $FONT_NORMAL" choice
+  echo
+  case $choice in
+    [Yy]* )
+      echo -e "    Removing subdirectory $name-ui and its contents...";
+      rm -rf ./"$name-ui";;
+    * )
+      exit 1;;
+  esac
+fi
+
+echo -e "    Cloning substrate-ui into subdirectory $name-ui...";
+echo
 git clone https://github.com/paritytech/substrate-ui --branch substrate-node-template "$name-ui"
 pushd .
 
