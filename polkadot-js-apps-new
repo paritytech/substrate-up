@@ -10,10 +10,8 @@ echo -e "$COLOR_WHITE $FONT_BOLD Polkadot-JS Apps Setup...$FONT_NORMAL";
 echo
 echo -e "    Usage: polkadot-js-apps-new";
 echo
-echo -e "  $COLOR_MAGENTA $FONT_BOLD Cloning Polkadot-JS Apps...$COLOR_WHITE $FONT_NORMAL";
-echo
+echo -e "$COLOR_MAGENTA $FONT_BOLD Cloning Polkadot-JS Apps...$COLOR_WHITE $FONT_NORMAL";
+
 git clone https://github.com/polkadot-js/apps --branch master;
 cd apps;
 yarn; 
-yarn run build;
-echo -e "    Run Polkadot-JS Apps with the command 'yarn start'";
