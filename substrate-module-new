@@ -31,7 +31,7 @@ echo "${bold}Creating module in ${dir}...${normal}"
 
 pushd $dir >/dev/null
 
-curl https://raw.githubusercontent.com/paritytech/substrate/master/node-template/runtime/src/template.rs -sSf > $filename
+curl https://raw.githubusercontent.com/paritytech/substrate/v1.0/node-template/runtime/src/template.rs -sSf > $filename
 
 git add $filename
 
