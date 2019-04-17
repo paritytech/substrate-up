@@ -1,17 +1,43 @@
 #!/usr/bin/env bash
 
-COLOR_WHITE=$(tput setaf 7);
-COLOR_MAGENTA=$(tput setaf 5);
-FONT_BOLD=$(tput bold);
-FONT_NORMAL=$(tput sgr0);
+set -e
+
+COLOR_WHITE=$(tput setaf 7)
+COLOR_MAGENTA=$(tput setaf 5)
+FONT_BOLD=$(tput bold)
+FONT_NORMAL=$(tput sgr0)
 
 echo
-echo -e "$COLOR_WHITE $FONT_BOLD Polkadot-JS Apps Setup...$FONT_NORMAL";
-echo
-echo -e "    Usage: polkadot-js-apps-new";
-echo
-echo -e "$COLOR_MAGENTA $FONT_BOLD Cloning Polkadot-JS Apps...$COLOR_WHITE $FONT_NORMAL";
+echo "$COLOR_WHITE $FONT_BOLD Polkadot-JS Apps Setup...$FONT_NORMAL"
 
-git clone https://github.com/polkadot-js/apps --branch master;
-cd apps;
-yarn; 
+name=$1
+shift
+
+if [[ "$name" == "" || "$name" == "-"* ]]
+then
+  echo
+  echo "    Usage: polkadot-js-apps-new <NAME>"
+  exit 1
+fi
+
+echo
+echo "$COLOR_MAGENTA $FONT_BOLD Cloning Polkadot-JS Apps...$COLOR_WHITE $FONT_NORMAL"
+
+git clone https://github.com/polkadot-js/apps --branch master --depth 1 "$name"
+
+pushd "$name" >/dev/null
+
+git remote add upstream https://github.com/polkadot-js/apps
+git remote rm origin
+git commit --amend -m "Initial clone from template node"
+
+command -v yarn >/dev/null 2>&1 || { echo >&2 "Please install yarn. https://yarnpkg.com/en/docs/install"; exit 1; }
+
+yarn
+
+echo "To start the ui, run:"
+echo "$ yarn start"
+echo "To push to a newly created GitHub repository, inside ${name}, run:"
+echo "$ git remote add origin git@github.com:myusername/myprojectname && git push -u origin master"
+
+popd >/dev/null
