@@ -8,6 +8,7 @@ You can update the scripts installed on your machine with:
 f=`mktemp -d`
 git clone https://github.com/paritytech/substrate-up $f
 cp -a $f/substrate-* ~/.cargo/bin
+cp -a $f/polkadot-* ~/.cargo/bin
 ```
 
 ## substrate-node-new
