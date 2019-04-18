@@ -9,13 +9,10 @@ echo
 echo -e "$COLOR_WHITE $FONT_BOLD Substrate Module Setup $FONT_NORMAL";
 
 name=$1
-shift
-author=$1
-shift
 
 if [[ "${name/* */}" == "" || "$name" == "-"* ]]
 then
-  echo "  Usage: substrate-module-new <NAME> <AUTHOR>"
+  echo "  Usage: substrate-module-new <NAME>"
   echo
   exit 1
 fi
@@ -44,7 +41,7 @@ curl https://raw.githubusercontent.com/paritytech/substrate/master/node-template
 
 git add $filename
 
-echo "${bold}Customising module...${normal}"
+echo "  ${bold}Customising module...${normal}"
 function replace {
 	find_this="$1"
 	shift
