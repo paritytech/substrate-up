@@ -1,5 +1,13 @@
 #!/usr/bin/env bash
 
+COLOR_WHITE=$(tput setaf 7);
+COLOR_MAGENTA=$(tput setaf 5);
+FONT_BOLD=$(tput bold);
+FONT_NORMAL=$(tput sgr0);
+
+echo
+echo -e "$COLOR_WHITE $FONT_BOLD Substrate Node Template Setup $FONT_NORMAL";
+
 name=$1
 shift
 author=$1
@@ -7,12 +15,14 @@ shift
 
 if [[ "$name" == "" || "$name" == "-"* ]]
 then
-  echo "Usage: substrate-node-new <NAME> <AUTHOR>"
+  echo "  Usage: substrate-node-new <NAME> <AUTHOR>"
+  echo
   exit 1
 fi
 if [[ "$author" == "" || "$author" == "-"* ]]
 then
-  echo "Usage: substrate-node-new <NAME> <AUTHOR>"
+  echo "  Usage: substrate-node-new <NAME> <AUTHOR>"
+  echo
   exit 1
 fi
 
@@ -23,11 +33,12 @@ bold=$(tput bold)
 normal=$(tput sgr0)
 
 if [ -d "$dirname" ]; then
-  echo "Directory '$name' already exists!"
+  echo "  Directory '$name' already exists!"
+  echo
   exit 1
 fi
 
-echo "${bold}Downloading project...${normal}"
+echo "${bold}  Downloading project...${normal}"
 if ! curl http://releases.parity.io/substrate/x86_64-ubuntu:xenial/latest/substrate-node-template.tar.gz | tar xz
 then
 	exit 1
@@ -79,6 +90,7 @@ echo "${bold}Initialising webassembly build environment...${normal}"
 echo "${bold}Building node...${normal}"
 cargo build --release
 
+echo
 echo "${bold}Chain client created in ${dirname}${normal}."
 echo "To start a dev chain, run:"
 echo "$ $dirname/target/release/${lname//[_ ]/-} --dev"
@@ -86,4 +98,6 @@ echo "To create a basic Bonds UI for your chain, run:"
 echo "$ substrate-ui-new $name"
 echo "To push to a newly created GitHub repository, inside ${dirname}, run:"
 echo "$ git remote add origin git@github.com:myusername/myprojectname && git push -u origin master"
+echo
+
 popd >/dev/null

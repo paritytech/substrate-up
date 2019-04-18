@@ -8,20 +8,19 @@ FONT_BOLD=$(tput bold)
 FONT_NORMAL=$(tput sgr0)
 
 echo
-echo "$COLOR_WHITE $FONT_BOLD Polkadot-JS Apps Setup...$FONT_NORMAL"
+echo "$COLOR_WHITE $FONT_BOLD Polkadot-JS Apps Setup $FONT_NORMAL"
 
 name=$1
-shift
 
 if [[ "$name" == "" || "$name" == "-"* ]]
 then
+  echo "  Usage: polkadot-js-apps-new <NAME>"
   echo
-  echo "    Usage: polkadot-js-apps-new <NAME>"
   exit 1
 fi
 
-echo
 echo "$COLOR_MAGENTA $FONT_BOLD Cloning Polkadot-JS Apps...$COLOR_WHITE $FONT_NORMAL"
+echo
 
 git clone https://github.com/polkadot-js/apps --branch master --depth 1 "$name"
 
@@ -35,9 +34,11 @@ command -v yarn >/dev/null 2>&1 || { echo >&2 "Please install yarn. https://yarn
 
 yarn
 
+echo
 echo "To start the ui, run:"
 echo "$ yarn start"
 echo "To push to a newly created GitHub repository, inside ${name}, run:"
 echo "$ git remote add origin git@github.com:myusername/myprojectname && git push -u origin master"
+echo
 
 popd >/dev/null
