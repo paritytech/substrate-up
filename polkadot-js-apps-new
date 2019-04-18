@@ -29,7 +29,7 @@ pushd "$name" >/dev/null
 
 git remote add upstream https://github.com/polkadot-js/apps
 git remote rm origin
-git commit --amend -m "Initial clone from template node"
+git commit --amend -m "Initial clone from Polkadot-JS Apps"
 
 command -v yarn >/dev/null 2>&1 || { echo >&2 "Please install yarn. https://yarnpkg.com/en/docs/install"; exit 1; }
 
