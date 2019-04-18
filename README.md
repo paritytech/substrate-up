@@ -2,6 +2,14 @@
 
 Scripts for working with new Substrate projects
 
+You can update the scripts installed on your machine with:
+
+```
+f=`mktemp -d`
+git clone https://github.com/paritytech/substrate-up $f
+cp -a $f/substrate-* ~/.cargo/bin
+```
+
 ## substrate-node-new
 
 The `substrate-node-new` script downloads a compressed copy of the [Substrate node template codebase](https://github.com/paritytech/substrate/tree/master/node-template) and compiles it. This gives you a ready-to-hack Substrate node with a template runtime module.
