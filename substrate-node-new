@@ -39,7 +39,7 @@ if [ -d "$dirname" ]; then
 fi
 
 echo "${bold}  Downloading project...${normal}"
-if ! curl https://releases.parity.io/substrate/x86_64-ubuntu:xenial/v1.0.0rc1/substrate-node-template.tar.gz | tar xz
+if ! curl http://releases.parity.io/substrate/x86_64-debian:stretch/latest-v1.0/substrate-node-template.tar.gz | tar xz
 then
 	exit 1
 fi
