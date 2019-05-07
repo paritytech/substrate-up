@@ -1,6 +1,6 @@
 # substrate-up
 
-Scripts for working with new Substrate projects
+Scripts for working with new Substrate projects. Based on the v1.0 branch of Substrate.
 
 You can update the scripts installed on your machine with:
 
@@ -13,7 +13,7 @@ cp -a $f/polkadot-* ~/.cargo/bin
 
 ## substrate-node-new
 
-The `substrate-node-new` script downloads a compressed copy of the [Substrate node template codebase](https://github.com/paritytech/substrate/tree/master/node-template) and compiles it. This gives you a ready-to-hack Substrate node with a template runtime module.
+The `substrate-node-new` script downloads a compressed copy of the [Substrate node template codebase](https://github.com/paritytech/substrate/tree/v1.0/node-template) and compiles it. This gives you a ready-to-hack Substrate node with a template runtime module.
 
 To use the `substrate-node-new` script, 
 
@@ -36,7 +36,7 @@ Once you run the `substrate-node-new` command, it will take a few minutes (depen
 
 Once you have your local node up and running using the `substrate-node-new` script, you can add more modules to your runtime using the `substrate-module-new` script.
 
-The `substrate-module-new` script creates a new runtime module based on a [template](https://github.com/paritytech/substrate/blob/master/node-template/runtime/src/template.rs). This gives you a ready-to-hack runtime module with all necessary imports, entry-points and sample tests. We recommend using this script to create new modules, specially for users who are just getting started with Substrate, as it also gives you good information on how a typical Substrate runtime module is structured.
+The `substrate-module-new` script creates a new runtime module based on a [template](https://github.com/paritytech/substrate/blob/v1.0/node-template/runtime/src/template.rs). This gives you a ready-to-hack runtime module with all necessary imports, entry-points and sample tests. We recommend using this script to create new modules, specially for users who are just getting started with Substrate, as it also gives you good information on how a typical Substrate runtime module is structured.
 
 To use the `substrate-module-new` script,
 
