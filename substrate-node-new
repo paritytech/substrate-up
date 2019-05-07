@@ -88,10 +88,10 @@ echo "${bold}Initializing WebAssembly build environment...${normal}"
 ./scripts/build.sh
 
 if [[ "$OSTYPE" == "linux-gnu" ]]; then
-	if [ -f /etc/debian_version ]; then
+  if [ -f /etc/debian_version ]; then
     ./init.sh 2>/dev/null >/dev/null
     ./build.sh  
-	fi
+  fi
 else
   ./scripts/init.sh 2>/dev/null >/dev/null
   ./scripts/build.sh  
