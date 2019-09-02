@@ -1,16 +1,8 @@
 #!/usr/bin/env bash
 
-COLOR_WHITE=$(tput setaf 7);
-COLOR_MAGENTA=$(tput setaf 5);
-FONT_BOLD=$(tput bold);
-FONT_NORMAL=$(tput sgr0);
-
-echo
-echo -e "$COLOR_WHITE $FONT_BOLD Substrate Module Setup $FONT_NORMAL";
-
 name=$1
 
-if [[ "${name/* */}" == "" || "$name" == "-"* ]]
+if [[ "$name" == "" || "$name" == "-"* ]]
 then
   echo "  Usage: substrate-module-new <NAME>"
   echo
@@ -18,51 +10,12 @@ then
 fi
 
 lname="$(echo $name | tr '[:upper:]' '[:lower:]')"
-filename="${lname//[_ ]/-}.rs"
-modname="${lname//[- ]/_}"
+dirname="${lname// /-}"
 
-bold=$(tput bold)
-yellow=$(tput setaf 3)
-normal=$(tput sgr0)
-
-if [[ -e runtime/src ]]; then
-	dir=runtime/src
-elif [[ -e wasm/src && -e src ]]; then
-	dir=src
-else
-	dir=.
+if [ -d "$dirname" ]; then
+  echo "  Directory '$name' already exists!"
+  echo
+  exit 1
 fi
 
-echo "  ${bold}Creating module in ${dir}...${normal}"
-
-pushd $dir >/dev/null
-
-curl https://raw.githubusercontent.com/paritytech/substrate/v1.0/node-template/runtime/src/template.rs -sSf > $filename
-
-git add $filename
-
-echo "  ${bold}Customising module...${normal}"
-function replace {
-	find_this="$1"
-	shift
-	replace_with="$1"
-	shift
-	IFS=$'\n'
-	TEMP=$(mktemp -d "${TMPDIR:-/tmp/}.XXXXXXXXXXXX")
-	rmdir $TEMP
-	for item in $filename
-	do
-		sed "s/$find_this/$replace_with/g" "$item" > $TEMP
-		cat $TEMP > "$item"
-	done
-	rm -f $TEMP
-}
-replace "TemplateModule" "${name}"
-
-echo
-echo "${bold}SRML module created as ${yellow}$dir/${filename}${normal}${bold} and added to git.${normal}"
-echo "Ensure that you include in your ${bold}${yellow}$dir/lib.rs${normal} the line:"
-echo "   mod ${modname};"
-echo
-
-popd >/dev/null
+git clone --branch=substrate-package https://github.com/substrate-developer-hub/substrate-module-template.git $dirname
