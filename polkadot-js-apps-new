@@ -18,4 +18,4 @@ if [ -d "$dirname" ]; then
   exit 1
 fi
 
-git clone --branch=substrate-package https://github.com/polkadot-js/apps.git $dirname
+git clone https://github.com/polkadot-js/apps.git $dirname
