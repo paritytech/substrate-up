@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -eo pipefail
+
 COLOR_WHITE=$(tput setaf 7);
 COLOR_MAGENTA=$(tput setaf 5);
 FONT_BOLD=$(tput bold);
