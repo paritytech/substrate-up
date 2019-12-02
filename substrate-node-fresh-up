@@ -1,0 +1,138 @@
+#!/usr/bin/env bash
+
+COLOR_WHITE=$(tput setaf 7);
+COLOR_MAGENTA=$(tput setaf 5);
+FONT_BOLD=$(tput bold);
+FONT_NORMAL=$(tput sgr0);
+
+dir_name=$1
+
+src_url="http://releases.parity.io/substrate/x86_64-ubuntu:xenial/latest/substrate-node-template.tar.gz"
+
+if [[ "$dir_name" == "" || "$dir_name" == "-"*  || "$dir_name" == "." ]]
+then
+  echo; echo "  This script will update local code with latest from:"
+  echo "  ${src_url}"
+  echo "  NOTE: This will overwrite files! Make sure you have your code backed up and/or in git"
+  echo; echo "  Usage: substrate-node-fresh-up <node code directory>"; echo;
+  exit 1
+fi
+
+echo; echo -e "${COLOR_WHITE}${FONT_BOLD}Refreshing substrate node code in $dir_name ...  $FONT_NORMAL"; echo;
+
+# check if dir exists
+if ! [ -d "$dir_name" ]; then  
+  echo "${COLOR_MAGENTA}${FONT_BOLD}Directory [$dir_name] does not exist! $FONT_NORMAL";
+  exit 1;
+fi
+
+pushd $dir_name > /dev/null;
+
+# is that dir in src control?
+is_git="$(git rev-parse --is-inside-work-tree 2>/dev/null)"
+if [ "$is_git" ]; then
+
+  # Check for unstaged changes in the working tree
+  if ! git diff-files --quiet --ignore-submodules --
+  then
+      echo >&2 "You have unstaged changes!"
+      git diff-files --name-status -r --ignore-submodules -- >&2
+      echo >&2 "Please commit or stash them and try again."
+      exit 1
+  fi
+
+  # Check for uncommitted changes in the index
+  if ! git diff-index --cached --quiet HEAD --ignore-submodules --
+  then
+      echo >&2 "You have uncommitted changes!"
+      git diff-index --cached --name-status -r --ignore-submodules HEAD -- >&2
+      echo >&2 "Please commit them and try again."
+      exit 1
+  fi
+
+else
+  echo "${COLOR_MAGENTA}${FONT_BOLD}Directory [$dir_name] is not in Git!";
+  echo "This script will overwrite many files in [$dir_name].$FONT_NORMAL";
+  read -p "Enter (y) to go ahead anyways >  ${COLOR_WHITE}${FONT_NORMAL}" choice
+  case $choice in
+    [Yy]* )
+      echo "Ok. Continuing ...";;
+    * )
+      echo "Bye."
+      exit 1;;
+  esac
+fi
+
+# confirm that the code in dir is for a substrate node - check for files/dirs: 
+if ! [[ -e src && -e runtime && -e build.sh && -e Cargo.toml ]]; then
+  echo "${COLOR_MAGENTA}${FONT_BOLD}This directory does not look like a substrate node!$FONT_NORMAL"
+  echo "${COLOR_MAGENTA}${FONT_BOLD}Can't find: src/, runtime/, build.sh & Cargo.toml$FONT_NORMAL";
+  echo "Quitin'..."
+  exit 1;
+fi
+
+echo "${COLOR_MAGENTA}${FONT_BOLD}Downloading latest substrate template code from:${FONT_NORMAL}"
+echo "${FONT_BOLD}${src_url}${FONT_NORMAL}..."
+rm -r /tmp/substrate-fresh-up
+mkdir -p /tmp/substrate-fresh-up
+pushd /tmp/substrate-fresh-up > /dev/null;
+
+if ! curl ${src_url} | tar xz
+then
+	exit 1
+fi
+
+#pop out of /tmp, back to $dir_name
+popd  > /dev/null; 
+
+src_dir="/tmp/substrate-fresh-up/substrate-node-template"
+files_to_copy="
+    Cargo.toml
+    LICENSE
+    init.sh
+    runtime/Cargo.toml
+    runtime/wasm/Cargo.toml
+    runtime/wasm/Cargo.lock
+    runtime/wasm/build.sh
+    runtime/wasm/src/lib.rs
+    runtime/src/lib.rs
+    runtime/src/template.rs
+    build.rs
+    build.sh
+    src/chain_spec.rs
+    src/error.rs
+    src/service.rs
+    src/main.rs
+    src/cli.rs
+"
+
+# last warning ...
+echo; echo "We'll be updating/overwriting the following files:  ...";
+for f in ${files_to_copy}; 
+do 
+  echo " ${f}"
+done;
+echo; echo "${COLOR_MAGENTA}${FONT_BOLD}You sure about this?";
+read -p "Enter (y) to keep going >  ${COLOR_WHITE}${FONT_NORMAL}" choice
+case $choice in
+  [Yy]* )
+    echo "Ok! Here we go!";;
+  * )
+    echo "Bye."
+    exit 1;;
+esac
+
+# copying ....
+echo; echo "Copying from [$src_dir] ...";
+for f in ${files_to_copy}; 
+do 
+  echo "Copying: ${f}..."
+  cp ${src_dir}/${f} ./${f}; 
+done;
+
+# Summary
+echo; echo "Defintely check:"
+echo "  ${COLOR_MAGENTA}${FONT_BOLD}runtime/src/lib.rs";
+echo "  src/main.rs$FONT_NORMAL";
+echo "Some of your original code in there was probably overwritten the default template ...";
+echo; echo "Done."; echo
