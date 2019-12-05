@@ -41,7 +41,7 @@ if [ -d "$dirname" ]; then
 fi
 
 echo "${bold}  Downloading project...${normal}"
-curl http://releases.parity.io/substrate/x86_64-debian:stretch/latest-v1.0/substrate-node-template.tar.gz | tar xz
+curl http://releases.parity.io/substrate/x86_64-debian:stretch/2.0.0-6653043/substrate/substrate-node-template.tar.gz | tar xz
 
 mv substrate-node-template $dirname
 
@@ -83,8 +83,6 @@ git commit -a -m "Initial clone from template node" 2>/dev/null >/dev/null
 
 echo "${bold}Initializing WebAssembly build environment...${normal}"
 ./scripts/init.sh 2>/dev/null >/dev/null
-
-./scripts/build.sh
 
 echo "${bold}Building node...${normal}"
 cargo build --release
