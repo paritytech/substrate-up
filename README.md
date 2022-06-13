@@ -1,3 +1,7 @@
+# ⚠️ This project is out-dated
+
+Please have a look at the [documentation](https://docs.substrate.io/tutorials/v3/create-your-first-substrate-chain/) about how to setup a new Substrate Chain.
+
 # substrate-up
 
 Scripts for working with new Substrate projects. Based on the v1.0 branch of Substrate.
